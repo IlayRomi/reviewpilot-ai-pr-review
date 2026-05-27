@@ -1,6 +1,6 @@
 # ReviewPilot Report — auth_change.diff
 
-**Generated:** 2026-05-27T19:29:17.432966+00:00
+**Generated:** 2026-05-27T19:31:10.204044+00:00
 
 ---
 
