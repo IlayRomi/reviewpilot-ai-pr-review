@@ -3,8 +3,8 @@
 **Assignment:** AI Specialist Engineer — DriveNets  
 **Candidate:** IlayRomi  
 **Date:** May 2026  
-**Repository:** TODO  
-**Demo recording:** TODO
+**Repository:** Not included in this submission.  
+**Demo recording:** Not included; local demo commands are provided in Section 14.
 
 ---
 
@@ -514,9 +514,9 @@ repeatable, and produces clear pass/fail output that scales to hundreds of tests
 ### Where Claude was strong
 
 **Boilerplate and structure.** Claude generated well-structured code quickly —
-consistent import order, `__all__` conventions where appropriate, docstrings on all
-public functions. This is the kind of work that is correct-by-convention and time-
-consuming to write manually.
+consistent import order, module-level docstrings, and docstrings on all public
+functions. This is the kind of work that is correct-by-convention and time-consuming
+to write manually.
 
 **Test scaffolding.** Given a clear specification of what to cover, Claude produced
 test files that were organized, used appropriate fixtures, and covered the specified
@@ -681,8 +681,8 @@ Expected result: **451 passed**.
 
 ### Repository and recording
 
-- **GitHub repository:** TODO
-- **Recorded demo:** TODO
+- **Repository:** Not included in this submission.
+- **Recorded demo:** Not included; local demo commands are provided above.
 
 ---
 
