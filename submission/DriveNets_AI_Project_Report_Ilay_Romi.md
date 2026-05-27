@@ -1,6 +1,6 @@
 # ReviewPilot - AI PR Review & Test Planner
 
-**Assignment:** AI Specialist Engineer - DriveNets  
+**Prepared for:** DriveNets AI Specialist Engineer Process  
 **Candidate:** Ilay Romi  
 **Date:** May 2026  
 **Repository:** https://github.com/IlayRomi/reviewpilot-ai-pr-review  
@@ -12,7 +12,7 @@
 
 ReviewPilot is a command-line tool I built with Claude Code to support pull-request review. Given a local unified `.diff` file, it produces a structured Markdown report that helps a reviewer understand what changed, where the risk is, and what should be tested.
 
-The project goal was not to build a naive LLM wrapper. I intentionally separated deterministic engineering logic from AI-assisted suggestions:
+My goal was not to build a naive LLM wrapper. I intentionally separated deterministic engineering logic from AI-assisted suggestions:
 
 - **Deterministic layer:** parse the diff, classify files, compute transparent risk signals, and build a structured report context.
 - **AI-assisted layer:** generate regression hypotheses, test suggestions, and a reviewer checklist from that structured context.
@@ -97,7 +97,7 @@ I used Claude Code as an engineering assistant, not as an unchecked code generat
 | Report builder | Full pipeline orchestration |
 | Renderer | Markdown report generation |
 | CLI | User-facing command line tool |
-| Documentation | README, dev log, sample diffs, sample report, final submission report |
+| Documentation | README, dev log, sample diffs, sample report, and final project report |
 
 ### Prompting patterns used
 
@@ -110,15 +110,20 @@ I did not ask Claude to build everything at once. I used constrained prompts:
 - **Documentation prompt:** write for a technical reviewer, with accurate limitations and no exaggerated claims.
 
 A representative example of a module prompt:
-> "Proceed with Commit #5 only: implement deterministic risk scoring in `risk_scorer.py`. Do not modify `parser`, `classifier`, `ai_client`, `report_builder`, `renderer`, or `cli`. Add tests covering each signal and boundary condition, then run pytest."
 
-This made the AI output easier to review and kept the project from turning into a broad, untestable demo.
+```text
+Proceed with Commit #5 only: implement deterministic risk scoring in risk_scorer.py.
+Do not modify parser, classifier, ai_client, report_builder, renderer, or cli.
+Add tests covering each signal and boundary condition, then run pytest.
+```
+
+This made the AI output easier to review and kept the work focused on a testable engineering artifact.
 
 ---
 
 ## 5. Testing Strategy
 
-The assignment asked for a short explanation of what was tested and how the tests fit together. I used four layers. Unit tests per module verify each deterministic component in isolation: parsing edge cases and change types, classification precedence rules, every risk scoring rule and score-band boundary, and MockAIClient grounding and determinism. Integration tests for `report_builder` and `renderer` verify that the modules compose correctly end-to-end — confirming that parse, classify, score, and render work together as a pipeline using inline diff fixtures. CLI tests verify the user-facing workflow: stdout output, file writing, error exit codes, and edge cases like missing files or empty diffs. Manual checks on the four sample diffs confirmed that the assembled report is readable, that the correct signals fire for realistic inputs, and that the AI-assisted sections are clearly labeled. Together, these layers build confidence from individual module behavior up to the final user-facing artifact.
+I designed the test suite around four layers that build confidence from individual module behavior to the final user-facing workflow. Unit tests per module verify each deterministic component in isolation: parsing edge cases and change types, classification precedence rules, every risk scoring rule and score-band boundary, and MockAIClient grounding and determinism. Integration tests for `report_builder` and `renderer` verify that the modules compose correctly end-to-end — confirming that parse, classify, score, and render work together as a pipeline using inline diff fixtures. CLI tests verify the user-facing workflow: stdout output, file writing, error exit codes, and edge cases like missing files or empty diffs. Manual checks on the four sample diffs confirmed that the assembled report is readable, that the correct signals fire for realistic inputs, and that the AI-assisted sections are clearly labeled. Together, these layers build confidence from individual module behavior up to the final user-facing artifact.
 
 All AI-related tests use `MockAIClient`. This avoids network calls, API keys, non-determinism, and token cost while still testing the AI boundary and report flow.
 
@@ -203,7 +208,7 @@ Future improvements:
 
 Run the project locally:
 
-```bash
+```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1       # Windows PowerShell
 pip install -e ".[dev]"
@@ -211,13 +216,13 @@ pip install -e ".[dev]"
 
 Generate a sample report:
 
-```bash
+```powershell
 python -m reviewpilot examples/auth_change.diff --output reports/sample_report.md
 ```
 
 Run all tests:
 
-```bash
+```powershell
 python -m pytest tests/ -v
 ```
 
@@ -229,10 +234,10 @@ Sample inputs are under `examples/`; the generated report is committed at `repor
 
 ## 11. Conclusion
 
-ReviewPilot demonstrates how I approach AI-assisted engineering: start from a clear problem, define strict boundaries, use Claude Code to accelerate implementation, and verify every output before accepting it.
+ReviewPilot reflects my approach to AI-assisted engineering work: start from a clear problem, define strict boundaries, use Claude Code to accelerate implementation, and verify every output before accepting it.
 
-The project is intentionally modest in scope, but complete as an MVP: it has a working CLI, realistic examples, deterministic risk analysis, AI-assisted suggestions through a clean protocol boundary, documentation, and 451 passing tests.
+The scope is intentionally modest, but the MVP is complete: it has a working CLI, realistic examples, deterministic risk analysis, AI-assisted suggestions through a clean protocol boundary, documentation, and 451 passing tests.
 
 Claude was useful as a collaborator for constrained tasks. The architecture, scope, testing strategy, and final quality decisions remained mine.
 
-*ReviewPilot - developed as the AI Specialist Engineer assignment for DriveNets, May 2026.*
+*ReviewPilot - AI-assisted engineering project, May 2026.*
