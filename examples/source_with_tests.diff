@@ -1,0 +1,45 @@
+diff --git a/src/pricing.py b/src/pricing.py
+index a1b2c3d..e4f5g6h 100644
+--- a/src/pricing.py
++++ b/src/pricing.py
+@@ -1,8 +1,10 @@
+ """Pricing calculation utilities."""
+
+
+-def calculate_discount(base_price: float, tier: str) -> float:
+-    """Return the discounted price for the given tier."""
+-    if tier == "premium":
+-        return base_price * 0.8
+-    return base_price
++DISCOUNT_RATES = {"standard": 1.0, "premium": 0.8, "enterprise": 0.65}
++
++
++def calculate_discount(base_price: float, tier: str) -> float:
++    """Return the discounted price for the given customer tier."""
++    rate = DISCOUNT_RATES.get(tier, 1.0)
++    return round(base_price * rate, 2)
+diff --git a/tests/test_pricing.py b/tests/test_pricing.py
+new file mode 100644
+index 0000000..abc1234
+--- /dev/null
++++ b/tests/test_pricing.py
+@@ -0,0 +1,19 @@
++"""Tests for pricing.calculate_discount."""
++
++from src.pricing import calculate_discount
++
++
++def test_standard_tier_no_discount():
++    assert calculate_discount(100.0, "standard") == 100.0
++
++
++def test_premium_tier_discount():
++    assert calculate_discount(100.0, "premium") == 80.0
++
++
++def test_enterprise_tier_discount():
++    assert calculate_discount(100.0, "enterprise") == 65.0
++
++
++def test_unknown_tier_no_discount():
++    assert calculate_discount(100.0, "unknown") == 100.0

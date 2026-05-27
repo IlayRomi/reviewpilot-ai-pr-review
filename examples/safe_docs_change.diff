@@ -1,0 +1,19 @@
+diff --git a/docs/usage.md b/docs/usage.md
+index aaa1234..bbb5678 100644
+--- a/docs/usage.md
++++ b/docs/usage.md
+@@ -1,9 +1,12 @@
+ # ReviewPilot Usage Guide
+
+-## Installation
++## Quick Start
+
+-Install the package using pip:
++Install ReviewPilot using pip:
+
+ ```bash
+ pip install reviewpilot
++
++# Optional: install with development dependencies
++pip install "reviewpilot[dev]"
+ ```

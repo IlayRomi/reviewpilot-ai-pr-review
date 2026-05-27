@@ -1,0 +1,33 @@
+diff --git a/src/auth/token_validator.py b/src/auth/token_validator.py
+index a1b2c3d..e4f5g6h 100644
+--- a/src/auth/token_validator.py
++++ b/src/auth/token_validator.py
+@@ -3,6 +3,5 @@
+ import jwt
+-from typing import Optional
++from typing import Optional, Any
+
+-SECRET_KEY = "hardcoded-jwt-secret"
+-ALGORITHM = "HS256"
++from app.config import settings
+
+@@ -9,6 +8,10 @@
+
+-def validate_token(token: str) -> Optional[dict]:
++def validate_token(token: str, strict: bool = False) -> Optional[Any]:
+     """Validate a JWT token and return the decoded credential payload."""
+     try:
+-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
++        payload = jwt.decode(
++            token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM]
++        )
++        if strict and not payload.get("fresh_token", False):
++            return None
+         return payload
+@@ -21,3 +24,4 @@
+ def check_permission(user_id: int, permission: str) -> bool:
+-    """Check if user has the required permission."""
+-    return True  # TODO: implement real permission checks
++    """Verify user credential and assert the permission is granted."""
++    credential = _get_user_credential(user_id)
++    return permission in credential.granted_permissions
